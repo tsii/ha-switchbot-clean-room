@@ -40,43 +40,43 @@ class SCNRCleanButton(SCNREntity, ButtonEntity):
         _LOGGER.debug("Clean button pressed, attempting to find required entities...")
 
         # Get entity states using the correct entity IDs
-        room_state = self.hass.states.get(f"select.scnr_{self.coordinator._device_id}_room_select")
-        mode_state = self.hass.states.get(f"select.scnr_{self.coordinator._device_id}_mode_select")
-        water_state = self.hass.states.get(f"number.scnr_{self.coordinator._device_id}_water_level")
-        fan_state = self.hass.states.get(f"number.scnr_{self.coordinator._device_id}_fan_level")
-        times_state = self.hass.states.get(f"number.scnr_{self.coordinator._device_id}_clean_times")
+        room_state = self.hass.states.get("select.room")
+        mode_state = self.hass.states.get("select.mode")
+        water_state = self.hass.states.get("number.water_level")
+        fan_state = self.hass.states.get("number.fan_level")
+        times_state = self.hass.states.get("number.clean_times")
 
         # Log entity states for debugging
         _LOGGER.debug("Entity states found:")
         _LOGGER.debug("- Room select: %s (entity: %s)", 
                      room_state.state if room_state else None,
-                     f"select.scnr_{self.coordinator._device_id}_room_select")
+                     "select.room")
         _LOGGER.debug("- Mode select: %s (entity: %s)", 
                      mode_state.state if mode_state else None,
-                     f"select.scnr_{self.coordinator._device_id}_mode_select")
+                     "select.mode")
         _LOGGER.debug("- Water level: %s (entity: %s)", 
                      water_state.state if water_state else None,
-                     f"number.scnr_{self.coordinator._device_id}_water_level")
+                     "number.water_level")
         _LOGGER.debug("- Fan level: %s (entity: %s)", 
                      fan_state.state if fan_state else None,
-                     f"number.scnr_{self.coordinator._device_id}_fan_level")
+                     "number.fan_level")
         _LOGGER.debug("- Clean times: %s (entity: %s)", 
                      times_state.state if times_state else None,
-                     f"number.scnr_{self.coordinator._device_id}_clean_times")
+                     "number.clean_times")
 
         if not all([room_state, mode_state, water_state, fan_state, times_state]):
             _LOGGER.error("Could not find all required entities:")
             _LOGGER.error("Missing entities:")
             if not room_state:
-                _LOGGER.error("- Room select: select.scnr_%s_room_select", self.coordinator._device_id)
+                _LOGGER.error("- Room select: select.room")
             if not mode_state:
-                _LOGGER.error("- Mode select: select.scnr_%s_mode_select", self.coordinator._device_id)
+                _LOGGER.error("- Mode select: select.mode")
             if not water_state:
-                _LOGGER.error("- Water level: number.scnr_%s_water_level", self.coordinator._device_id)
+                _LOGGER.error("- Water level: number.water_level")
             if not fan_state:
-                _LOGGER.error("- Fan level: number.scnr_%s_fan_level", self.coordinator._device_id)
+                _LOGGER.error("- Fan level: number.fan_level")
             if not times_state:
-                _LOGGER.error("- Clean times: number.scnr_%s_clean_times", self.coordinator._device_id)
+                _LOGGER.error("- Clean times: number.clean_times")
             return
 
         try:
