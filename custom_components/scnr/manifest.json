@@ -1,0 +1,12 @@
+{
+  "domain": "scnr",
+  "name": "Switchbot CleaN Room",
+  "version": "1.0.1",
+  "documentation": "https://github.com/tsii/ha-switchbot-clean-room",
+  "issue_tracker": "https://github.com/tsii/ha-switchbot-clean-room/issues",
+  "dependencies": [],
+  "codeowners": ["@tsii"],
+  "requirements": ["aiohttp"],
+  "config_flow": true,
+  "iot_class": "cloud_polling"
+}
