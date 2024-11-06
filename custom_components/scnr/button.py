@@ -34,8 +34,8 @@ class SCNRCleanButton(SCNREntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Press the button."""
-        room_state = self.hass.states.get(f"select.{self.coordinator._device_id}_room")
-        mode_state = self.hass.states.get(f"select.{self.coordinator._device_id}_mode")
+        room_state = self.hass.states.get(f"select.{self.coordinator._device_id}_room_select")
+        mode_state = self.hass.states.get(f"select.{self.coordinator._device_id}_mode_select")
         water_state = self.hass.states.get(f"number.{self.coordinator._device_id}_water_level")
         fan_state = self.hass.states.get(f"number.{self.coordinator._device_id}_fan_level")
         times_state = self.hass.states.get(f"number.{self.coordinator._device_id}_clean_times")
