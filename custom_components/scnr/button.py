@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import asyncio
 
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
@@ -34,21 +35,25 @@ class SCNRCleanButton(SCNREntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Press the button."""
-        room_state = self.hass.states.get(f"select.{self.coordinator._device_id}_room_select")
-        mode_state = self.hass.states.get(f"select.{self.coordinator._device_id}_mode_select")
-        water_state = self.hass.states.get(f"number.{self.coordinator._device_id}_water_level")
-        fan_state = self.hass.states.get(f"number.{self.coordinator._device_id}_fan_level")
-        times_state = self.hass.states.get(f"number.{self.coordinator._device_id}_clean_times")
+        # Wait for entities to be fully initialized (max 10 seconds)
+        for _ in range(20):  # 20 attempts * 0.5 seconds = 10 seconds max
+            room_state = self.hass.states.get(f"select.{self.coordinator._device_id}_room_select")
+            mode_state = self.hass.states.get(f"select.{self.coordinator._device_id}_mode_select")
+            water_state = self.hass.states.get(f"number.{self.coordinator._device_id}_water_level")
+            fan_state = self.hass.states.get(f"number.{self.coordinator._device_id}_fan_level")
+            times_state = self.hass.states.get(f"number.{self.coordinator._device_id}_clean_times")
 
-        if not all([room_state, mode_state, water_state, fan_state, times_state]):
-            _LOGGER.error("Could not find all required entities: room=%s, mode=%s, water=%s, fan=%s, times=%s",
-                         room_state, mode_state, water_state, fan_state, times_state)
-            return
+            if all([room_state, mode_state, water_state, fan_state, times_state]):
+                await self.coordinator.clean_room(
+                    room_state.state,
+                    mode_state.state,
+                    int(float(water_state.state)),
+                    int(float(fan_state.state)),
+                    int(float(times_state.state))
+                )
+                return
 
-        await self.coordinator.clean_room(
-            room_state.state,
-            mode_state.state,
-            int(float(water_state.state)),
-            int(float(fan_state.state)),
-            int(float(times_state.state))
-        )
+            await asyncio.sleep(0.5)
+
+        _LOGGER.error("Could not find all required entities: room=%s, mode=%s, water=%s, fan=%s, times=%s",
+                     room_state, mode_state, water_state, fan_state, times_state)
