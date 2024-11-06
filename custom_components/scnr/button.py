@@ -34,14 +34,15 @@ class SCNRCleanButton(SCNREntity, ButtonEntity):
 
     async def async_press(self) -> None:
         """Press the button."""
-        room_state = self.hass.states.get(f"{DOMAIN}.{self.coordinator._device_id}_room_select")
-        mode_state = self.hass.states.get(f"{DOMAIN}.{self.coordinator._device_id}_mode_select")
-        water_state = self.hass.states.get(f"{DOMAIN}.{self.coordinator._device_id}_water_level")
-        fan_state = self.hass.states.get(f"{DOMAIN}.{self.coordinator._device_id}_fan_level")
-        times_state = self.hass.states.get(f"{DOMAIN}.{self.coordinator._device_id}_clean_times")
+        room_state = self.hass.states.get(f"select.{self.coordinator._device_id}_room")
+        mode_state = self.hass.states.get(f"select.{self.coordinator._device_id}_mode")
+        water_state = self.hass.states.get(f"number.{self.coordinator._device_id}_water_level")
+        fan_state = self.hass.states.get(f"number.{self.coordinator._device_id}_fan_level")
+        times_state = self.hass.states.get(f"number.{self.coordinator._device_id}_clean_times")
 
         if not all([room_state, mode_state, water_state, fan_state, times_state]):
-            _LOGGER.error("Could not find all required entities")
+            _LOGGER.error("Could not find all required entities: room=%s, mode=%s, water=%s, fan=%s, times=%s",
+                         room_state, mode_state, water_state, fan_state, times_state)
             return
 
         await self.coordinator.clean_room(
