@@ -10,7 +10,7 @@ from . import SCNRDataUpdateCoordinator
 from .const import DOMAIN
 from .entity import SCNREntity
 
-ROOMS = ["ROOM_000", "ROOM_001", "ROOM_002"]
+ROOMS = ["ROOM_000", "ROOM_001", "ROOM_002", "ROOM_003", "ROOM_0044", "ROOM_005", "ROOM_006", "ROOM_007", "ROOM_008", "ROOM_009", ]
 MODES = ["sweep", "sweep_mop"]
 
 async def async_setup_entry(
