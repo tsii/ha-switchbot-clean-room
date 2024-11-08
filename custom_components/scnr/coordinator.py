@@ -97,8 +97,7 @@ class SCNRDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def clean_room(self, room_id: str, mode: str, water: int, fan: int, times: int):
         """Clean a specific room."""
-        if not self._access_token or not self._device_id:
-            await self._async_update_data()
+        await self._async_update_data()
 
         async with aiohttp.ClientSession() as session:
             async with session.post(

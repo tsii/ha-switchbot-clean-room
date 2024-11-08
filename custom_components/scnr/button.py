@@ -80,11 +80,6 @@ class SCNRCleanButton(SCNREntity, ButtonEntity):
             return
 
         try:
-            if not self._access_token:
-                await self._login()
-            if not self._device_id:
-                await self._get_device()
-
             await self.coordinator.clean_room(
                 room_state.state,
                 mode_state.state,
