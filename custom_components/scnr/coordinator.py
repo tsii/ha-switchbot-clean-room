@@ -36,9 +36,9 @@ class SCNRDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Update data via library."""
         # if not self._access_token:
-          await self._login()
+        await self._login()
         # if not self._device_id:
-          await self._get_device()
+        await self._get_device()
         return {}
 
     async def _login(self):
