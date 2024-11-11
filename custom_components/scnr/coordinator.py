@@ -35,10 +35,10 @@ class SCNRDataUpdateCoordinator(DataUpdateCoordinator):
 
     async def _async_update_data(self):
         """Update data via library."""
-        if not self._access_token:
-            await self._login()
-        if not self._device_id:
-            await self._get_device()
+        # if not self._access_token:
+          await self._login()
+        # if not self._device_id:
+          await self._get_device()
         return {}
 
     async def _login(self):
@@ -71,6 +71,8 @@ class SCNRDataUpdateCoordinator(DataUpdateCoordinator):
                 if self._debug:
                     _LOGGER.debug("Login response: %s", data)
                 self._access_token = data["body"]["access_token"]
+                if self._debug:
+                    _LOGGER.debug("Access Token: %s",  data["body"]["access_token"])
 
     async def _get_device(self):
         """Get device info."""
